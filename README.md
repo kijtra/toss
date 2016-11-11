@@ -17,6 +17,10 @@ Using Composer
 composer.phar require kijtra/toss
 ```
 
+## Requires
+
+PHP >= 5.5
+
 
 ## Basic Usage
 
@@ -43,12 +47,12 @@ Or global(singleton) method
 <?php
 use \Kijtra\Toss;
 
-Toss::global()->success('Year!');
+Toss::getGlobal()->success('Year!');
 
 // ... something ...
 
-if (Toss::global()->hasSuccess()) {
-    echo Toss::global()->getMessage(); // 'Year!'
+if (Toss::getGlobal()->hasSuccess()) {
+    echo Toss::getGlobal()->getMessage(); // 'Year!'
 }
 ```
 
@@ -100,7 +104,7 @@ $latest = $toss->getMessage();
 // Sync to Global instance
 $latest->toGlobal();
 
-var_dump(Toss::global()->hasSuccess()); // true
+var_dump(Toss::getGlobal()->hasSuccess()); // true
 ```
 
 ## Clear messages

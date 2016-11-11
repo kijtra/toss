@@ -11,7 +11,7 @@ class TossCustomTypeTest extends \PHPUnit_Framework_TestCase
     public function testAddExtended()
     {
         $instance = new Toss;
-        $instance->addType(CustomExtended::class);
+        $instance->addType('CustomExtended');
         $this->assertTrue($instance->isAvailableType('CustomExtended'));
     }
 
@@ -59,7 +59,7 @@ class TossCustomTypeTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $instance = new Toss;
-            $instance->addType(CustomNotExtended::class);
+            $instance->addType('CustomNotExtended');
         } catch(\Exception $e) {
             $this->assertEquals('InvalidArgumentException', get_class($e));
             return;
@@ -85,7 +85,7 @@ class TossCustomTypeTest extends \PHPUnit_Framework_TestCase
     {
         $text = 'Custom Type';
         $instance = new Toss;
-        $instance->addType(CustomExtended::class);
+        $instance->addType('CustomExtended');
         $instance->CustomExtended($text);
         $this->assertTrue($instance->hasCustomExtended());
     }

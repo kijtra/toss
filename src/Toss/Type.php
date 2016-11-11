@@ -96,7 +96,7 @@ class Type
      */
     final public function getGlobal()
     {
-        return Toss::global();
+        return Toss::getGlobal();
     }
 
     /**

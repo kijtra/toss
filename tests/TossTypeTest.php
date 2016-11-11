@@ -163,6 +163,6 @@ class TossTypeTest extends \PHPUnit_Framework_TestCase
     public function testGetGlobal()
     {
         $type = new Type\Error('Message');
-        $this->assertEquals(Toss::global(), $type->getGlobal());
+        $this->assertEquals(Toss::getGlobal(), $type->getGlobal());
     }
 }

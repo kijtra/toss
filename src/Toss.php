@@ -81,7 +81,7 @@ class Toss implements \ArrayAccess
      * @param mixed $text  Something message data or Toss\Type or Exception object
      * @param string $type  Message type name
      */
-    public static function global($data = null, string $type = null)
+    public static function getGlobal($data = null, string $type = null)
     {
         static $global;
         if (null === $global) {
@@ -302,7 +302,7 @@ class Toss implements \ArrayAccess
         }
 
         if ($nothing && !empty($withGlobal)) {
-            if (!self::global()->isNothing()) {
+            if (!self::getGlobal()->isNothing()) {
                 $nothing = false;
             }
         }
@@ -368,7 +368,7 @@ class Toss implements \ArrayAccess
 
     public static function __callStatic($name, $args)
     {
-        $global = self::global();
+        $global = self::getGlobal();
         return call_user_func_array(array($global, $name), $args);
     }
     
