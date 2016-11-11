@@ -68,7 +68,7 @@ class Toss implements \ArrayAccess
      * @param string $type  Message type name
      * @param boolean $toGlobal  Sync to global instance
      */
-    public function __construct($data = null, string $type = null, bool $toGlobal = false)
+    public function __construct($data = null, $type = null, bool $toGlobal = false)
     {
         if (null !== $data) {
             $this->add($data, $type, $toGlobal);
@@ -216,7 +216,7 @@ class Toss implements \ArrayAccess
             if (!empty($this->classMaps[$type])) {
                 $class = $this->classMaps[$type];
             } else {
-                $class = __CLASS__.'\\Type\\'.$type;
+                $class = __CLASS__.'\\Type\\'.ucfirst($type);
             }
             
             $message = new $class($data);
