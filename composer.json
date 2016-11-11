@@ -1,6 +1,6 @@
 {
   "name": "kijtra/toss",
-  "description": "Background message/flash library",
+  "description": "Pass the message in background",
   "type": "library",
   "keywords": ["message", "flash", "alert", "PHP"],
   "license": "MIT",
