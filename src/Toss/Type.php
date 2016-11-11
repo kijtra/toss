@@ -214,7 +214,7 @@ class Type
      *
      * @return boolean  Type name is valid
      */
-    final public function is(string $type)
+    final public function is($type)
     {
         return (strtolower($type) === $this->type);
     }

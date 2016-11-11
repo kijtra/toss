@@ -68,7 +68,7 @@ class Toss implements \ArrayAccess
      * @param string $type  Message type name
      * @param boolean $toGlobal  Sync to global instance
      */
-    public function __construct($data = null, $type = null, bool $toGlobal = false)
+    public function __construct($data = null, $type = null, $toGlobal = false)
     {
         if (null !== $data) {
             $this->add($data, $type, $toGlobal);
@@ -81,7 +81,7 @@ class Toss implements \ArrayAccess
      * @param mixed $text  Something message data or Toss\Type or Exception object
      * @param string $type  Message type name
      */
-    public static function getGlobal($data = null, string $type = null)
+    public static function getGlobal($data = null, $type = null)
     {
         static $global;
         if (null === $global) {
@@ -99,7 +99,7 @@ class Toss implements \ArrayAccess
      * @param string $type  Message type name
      * @return object  Current object
      */
-    public function setDefaultType(string $type)
+    public function setDefaultType($type)
     {
         if (!$this->isAvailableType($type)) {
             throw new \InvalidArgumentException(sprintf('Message Type "%s" is not available.', $type));
@@ -135,7 +135,7 @@ class Toss implements \ArrayAccess
      *
      * @param string $type Message type name
      */
-    public function isAvailableType(string $name)
+    public function isAvailableType($name)
     {
         if (empty($name)) {
             return false;
@@ -189,7 +189,7 @@ class Toss implements \ArrayAccess
      * @param boolean $toGlobal Sync to global instance
      * @return object  Current object
      */
-    public function add($data = null, string $type = null, $toGlobal = false)
+    public function add($data = null, $type = null, $toGlobal = false)
     {
         $message = null;
 
@@ -277,7 +277,7 @@ class Toss implements \ArrayAccess
      * @param string $type Message type name
      * @return boolean
      */
-    public function has(string $type)
+    public function has($type)
     {
         return ($this->isAvailableType($type) && !empty($this->messages[$type]));
     }
@@ -327,7 +327,7 @@ class Toss implements \ArrayAccess
      * @param string $type Message type name
      * @return object  Current object
      */
-    public function clear(string $type = null)
+    public function clear($type = null)
     {
         if (null !== $type) {
             if ($this->isAvailableType($type)) {
