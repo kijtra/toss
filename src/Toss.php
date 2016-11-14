@@ -7,6 +7,7 @@
  */
 namespace Kijtra;
 
+use \Kijtra\Toss\Group;
 use \Kijtra\Toss\Type;
 
 class Toss implements \ArrayAccess
@@ -223,10 +224,10 @@ class Toss implements \ArrayAccess
         }
 
         if (empty($this->messages[$type])) {
-            $this->messages[$type] = array();
+            $this->messages[$type] = new Group($type);
         }
 
-        $this->messages[$type][] = $message;
+        $this->messages[$type]->add($message);
         $this->latestType = $message->type();
         $this->latestMessage = $message;
 

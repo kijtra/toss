@@ -59,16 +59,7 @@ class TossTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($text, $message->message());
     }
 
-    public function testGetMessages()
-    {
-        $text = 'Message';
-        $instance = new Toss;
-        $instance->add($text)->add($text);
-        $messages = $instance->getMessages();
-        $this->assertTrue(2 === count($messages));
-    }
-
-    public function testHaveMessagesByAlias()
+    public function testGetByArray()
     {
         $text = 'Message';
         $instance = new Toss($text, 'success');
@@ -76,14 +67,14 @@ class TossTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(($messages[0]->message === $text));
     }
 
-    public function testHaveMessagesByProperty()
+    public function testHaveByProperty()
     {
         $text = 'Message';
         $instance = new Toss($text, 'notice');
         $this->assertTrue(($instance->notice[0]->message === $text));
     }
 
-    public function testHaveMessagesByArray()
+    public function testHaveByArray()
     {
         $text = 'Message';
         $instance = new Toss($text, 'warning');
