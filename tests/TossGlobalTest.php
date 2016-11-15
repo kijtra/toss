@@ -13,7 +13,7 @@ class TossGlobalTest extends \PHPUnit_Framework_TestCase
 
     public function testToGlobalAtConstructor()
     {
-        $message = new Toss('Message', 'error', true);
+        $message = new Toss('Message', 'error', null, true);
         $global = Toss::getGlobal();
         $this->assertTrue($message->hasError());
         $this->assertTrue($global->hasError());
@@ -37,7 +37,7 @@ class TossGlobalTest extends \PHPUnit_Framework_TestCase
 
     public function testClear()
     {
-        $message = new Toss('Message', 'info', true);
+        $message = new Toss('Message', 'info', null, true);
         $global = Toss::getGlobal();
 
         $global->clear('info');

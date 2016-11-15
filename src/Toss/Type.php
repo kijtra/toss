@@ -46,11 +46,19 @@ class Type implements \Serializable, \JsonSerializable
     private $line;
 
     /**
+     * Extend data
+     *
+     * @var mixed
+     */
+    private $data;
+
+    /**
      * Constructor
      *
-     * @param mixed $data  Something message data or Toss\Type or Exception object
+     * @param mixed $message  Something message data or Toss\Type or Exception object
+     * @param mixed $data  Extend data
      */
-    final public function __construct($data = null)
+    final public function __construct($message = null, $data = null)
     {
         if (__CLASS__ === get_class($this)) {
             throw new \LogicException('Toss\\Type cannot call direct.');
@@ -59,18 +67,15 @@ class Type implements \Serializable, \JsonSerializable
         // Class name equal type name
         $this->type = strtolower(substr(strrchr('\\'.get_class($this), '\\'), 1));
 
-        if ($data instanceof \Exception) {
-            $this->message = $data->getMessage();
+        if ($message instanceof \Exception) {
+            $this->message = $message->getMessage();
             if (empty($this->message)) {
                 throw new \InvalidArgumentException('Message data is empty.');
             }
-            $this->file = $data->getFile();
-            $this->line = $data->getLine();
-        } elseif (!empty($data)) {
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-            $this->message = $data;
+            $this->file = $message->getFile();
+            $this->line = $message->getLine();
+        } elseif (is_string($message)) {
+            $this->message = trim($message);
 
             $parentFile = self::getParentFilePath();
             $currentFile = self::getCurrentFilePath();
@@ -85,7 +90,11 @@ class Type implements \Serializable, \JsonSerializable
                 }
             }
         } else {
-            throw new \InvalidArgumentException('Message data is empty.');
+            throw new \InvalidArgumentException('Invalid message argument.');
+        }
+
+        if (!empty($data)) {
+            $this->withData($data);
         }
     }
 
@@ -210,6 +219,42 @@ class Type implements \Serializable, \JsonSerializable
     }
 
     /**
+     * Add extend data
+     *
+     * @param mixed $data  Extend data
+     * @return object  Current object
+     */
+    final public function setData($data)
+    {
+        $this->data = $data;
+        return $this;
+    }
+
+    /**
+     * Get extend data
+     *
+     * @return mixed
+     */
+    final public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * setData() / getData() method alias
+     *
+     * @return integer  Line number
+     */
+    final public function data($data = null)
+    {
+        if (0 === func_num_args()) {
+            return $this->getData();
+        } else {
+            return $this->setData($data);
+        }
+    }
+
+    /**
      * Check current type
      *
      * @return boolean  Type name is valid
@@ -254,10 +299,11 @@ class Type implements \Serializable, \JsonSerializable
     final public function toArray()
     {
         return array(
-            'type' => $this->type,
-            'message' => $this->message,
-            'file' => $this->file,
-            'code' => $this->code,
+            'type' => $this->getType(),
+            'message' => $this->getMessage(),
+            'file' => $this->getFile(),
+            'line' => $this->getLine(),
+            'data' => $this->getData(),
         );
     }
 

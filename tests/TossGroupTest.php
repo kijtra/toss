@@ -16,7 +16,8 @@ class TossGroupTest extends \PHPUnit_Framework_TestCase
     {
         $text = 'Message';
         $instance = new Toss;
-        $instance->add($text)->add($text);
+        $instance->add($text);
+        $instance->add($text);
         $messages = $instance->getMessages();
         $this->assertEquals(2, $messages->count());
     }
@@ -25,7 +26,8 @@ class TossGroupTest extends \PHPUnit_Framework_TestCase
     {
         $text = 'First';
         $instance = new Toss;
-        $instance->add($text)->add('Second');
+        $instance->add($text);
+        $instance->add('Second');
         $messages = $instance->getMessages();
         $this->assertEquals($text, $messages->first()->message());
     }
@@ -34,7 +36,8 @@ class TossGroupTest extends \PHPUnit_Framework_TestCase
     {
         $text = 'Second';
         $instance = new Toss;
-        $instance->add('First')->add($text);
+        $instance->add('First');
+        $instance->add($text);
         $messages = $instance->getMessages();
         $this->assertEquals($text, $messages->last()->message());
     }
@@ -43,7 +46,8 @@ class TossGroupTest extends \PHPUnit_Framework_TestCase
     {
         $text = 'First';
         $instance = new Toss;
-        $instance->add($text)->add('Second');
+        $instance->add($text);
+        $instance->add('Second');
         $messages = $instance->getMessages();
         $this->assertEquals($text, $messages->current()->message());
     }
@@ -52,7 +56,8 @@ class TossGroupTest extends \PHPUnit_Framework_TestCase
     {
         $text = 'Second';
         $instance = new Toss;
-        $instance->add('First')->add($text);
+        $instance->add('First');
+        $instance->add($text);
         $messages = $instance->getMessages();
         $this->assertEquals($text, $messages->end()->message());
     }
@@ -81,7 +86,8 @@ class TossGroupTest extends \PHPUnit_Framework_TestCase
             'Second',
         );
         $instance = new Toss;
-        $instance->add($text[0])->add($text[1]);
+        $instance->add($text[0]);
+        $instance->add($text[1]);
         foreach ($instance->info() as $key => $val) {
             $this->assertEquals($text[$key], $val->message());
         }

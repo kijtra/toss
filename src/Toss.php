@@ -65,14 +65,15 @@ class Toss implements \ArrayAccess
     /**
      * Latest added type
      *
-     * @param mixed $data  Something message data or Toss\Type or Exception object
+     * @param mixed $message  Something message data or Toss\Type or Exception object
      * @param string $type  Message type name
+     * @param mixed $data  Extend data
      * @param boolean $toGlobal  Sync to global instance
      */
-    public function __construct($data = null, $type = null, $toGlobal = false)
+    public function __construct($message = null, $type = null, $data = null, $toGlobal = false)
     {
-        if (null !== $data) {
-            $this->add($data, $type, $toGlobal);
+        if (null !== $message) {
+            $this->add($message, $type, $data, $toGlobal);
         }
     }
 
@@ -186,25 +187,26 @@ class Toss implements \ArrayAccess
      * Add new message
      *
      * @param mixed $data  Something message data or Toss\Type or Exception object
-     * @param string $type Message type name
-     * @param boolean $toGlobal Sync to global instance
+     * @param string $type  Message type name
+     * @param mixed $data  Extend data
+     * @param boolean $toGlobal  Sync to global instance
      * @return object  Current object
      */
-    public function add($data = null, $type = null, $toGlobal = false)
+    public function add($text = null, $type = null, $data = null, $toGlobal = false)
     {
         $message = null;
 
-        if (empty($data)) {
+        if (empty($text)) {
             throw new \InvalidArgumentException('Message data is empty.');
-        } elseif ($data instanceof Type) {
-            $message = $data;
-            $type = $data->type();
+        } elseif ($text instanceof Type) {
+            $message = $text;
+            $type = $text->type();
             if (!$this->isAvailableType($type)) {
-                $this->addType($data);
+                $this->addType($text);
             }
-        } elseif ($data instanceof \Exception) {
+        } elseif ($text instanceof \Exception) {
             $type = 'error';
-            $message = new Type\Error($data);
+            $message = new Type\Error($text);
         } else {
             if (empty($type)) {
                 $type = $this->defaultType;
@@ -220,7 +222,15 @@ class Toss implements \ArrayAccess
                 $class = __CLASS__.'\\Type\\'.ucfirst($type);
             }
             
-            $message = new $class($data);
+            $message = new $class($text);
+        }
+
+        if (!empty($data)) {
+            $message->setData($data);
+        }
+
+        if (!empty($toGlobal)) {
+            $message->toGlobal();
         }
 
         if (empty($this->messages[$type])) {
@@ -231,11 +241,7 @@ class Toss implements \ArrayAccess
         $this->latestType = $message->type();
         $this->latestMessage = $message;
 
-        if (!empty($toGlobal)) {
-            $message->toGlobal();
-        }
-
-        return $this;
+        return $message;
     }
 
     /**

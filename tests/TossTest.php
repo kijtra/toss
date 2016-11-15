@@ -158,4 +158,38 @@ class TossTest extends \PHPUnit_Framework_TestCase
         $instance->clear('notice');
         $this->assertTrue($instance->isNothing());
     }
+
+    public function testWithDataAsConstruct()
+    {
+        $instance = new Toss('Message', null, 'test');
+        $this->assertEquals($instance->getMessage()->data(), 'test');
+    }
+
+    public function testWithDataAsAdding()
+    {
+        $instance = new Toss;
+        $message = $instance->add('Message', 'info', 'test');
+        $this->assertEquals($message->data(), 'test');
+    }
+
+    public function testWithDataAsMethod()
+    {
+        $instance = new Toss;
+        $message = $instance->add('Message', 'info')->setData('test');
+        $this->assertEquals($message->data(), 'test');
+    }
+
+    public function testWithDataAsShortMethod()
+    {
+        $instance = new Toss;
+        $message = $instance->add('Message', 'info')->data('test');
+        $this->assertEquals($message->data(), 'test');
+    }
+
+    public function testGetDataAsProperty()
+    {
+        $instance = new Toss;
+        $message = $instance->add('Message', 'info')->data('test');
+        $this->assertEquals($message->data, 'test');
+    }
 }
