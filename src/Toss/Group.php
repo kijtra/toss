@@ -117,6 +117,16 @@ class Group implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
+     * Get all messages
+     *
+     * @return array
+     */
+    public function all()
+    {
+        return $this->container;
+    }
+
+    /**
      * Convert to array
      *
      * @return array
@@ -132,16 +142,6 @@ class Group implements \ArrayAccess, \Countable, \IteratorAggregate
             $array[$key] = $val->toArray();
         }
         return $array;
-    }
-
-    /**
-     * Convert to JSON
-     *
-     * @return string  JSON string
-     */
-    public function toJson()
-    {
-        return $this->jsonSerialize();
     }
 
     /**
@@ -172,9 +172,19 @@ class Group implements \ArrayAccess, \Countable, \IteratorAggregate
      * ArrayAccess overrides
      */
     public function offsetSet($offset, $value) {
-        if (ctype_digit((string) $offset)) {
-            $this->container[(int) $offset] = $value;
+        $typeName = ucfirst($this->type);
+        $type = __NAMESPACE__.'\\Type\\'.$typeName;
+        if (!$value instanceof $type) {
+            throw new \InvalidArgumentException(sprintf('Type is must be "%s".', $typeName));
         }
+        
+        if (null === $offset) {
+            $offset = count($this->container);
+        } elseif (!ctype_digit((string) $offset)) {
+            throw new \InvalidArgumentException('Array key must be integer.');
+        }
+        
+        $this->container[(int) $offset] = $value;
     }
 
     public function offsetExists($offset) {

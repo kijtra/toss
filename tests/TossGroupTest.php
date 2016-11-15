@@ -62,6 +62,16 @@ class TossGroupTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($text, $messages->end()->message());
     }
 
+    public function testGetAll()
+    {
+        $text = 'Second';
+        $instance = new Toss;
+        $instance->add('First');
+        $instance->add($text);
+        $messages = $instance->getMessages();
+        $this->assertEquals(2, count($messages->all()));
+    }
+
     public function testIsEmpty()
     {
         $instance = new Toss('Message', 'warning');
@@ -99,5 +109,55 @@ class TossGroupTest extends \PHPUnit_Framework_TestCase
         $messages = $instance->warning();
         $this->assertFalse(is_array($messages));
         $this->assertTrue(is_array($messages->toArray()));
+    }
+
+    public function testBadMethod()
+    {
+        try {
+            $instance = new Toss('Message', 'warning');
+            $messages = $instance->warning();
+            $messages->nothingMethod();
+        } catch(\Exception $e) {
+            $this->assertEquals('BadMethodCallException', get_class($e));
+            return;
+        }
+
+        $this->assertTrue(false);
+    }
+
+    public function testAddArray()
+    {
+        $instance = new Toss('Message', 'warning');
+        $messages = $instance->warning();
+        $messages[] = new Type\Warning('Message');
+        $this->assertEquals(2, $messages->count());
+    }
+
+    public function testAddArrayException()
+    {
+        try {
+            $instance = new Toss('Message', 'warning');
+            $messages = $instance->warning();
+            $messages[] = new Type\Error('Message');
+        } catch(\Exception $e) {
+            $this->assertEquals('InvalidArgumentException', get_class($e));
+            return;
+        }
+
+        $this->assertTrue(false);
+    }
+
+    public function testAddArrayKeyException()
+    {
+        try {
+            $instance = new Toss('Message', 'warning');
+            $messages = $instance->warning();
+            $messages['key'] = new Type\Warning('Message');
+        } catch(\Exception $e) {
+            $this->assertEquals('InvalidArgumentException', get_class($e));
+            return;
+        }
+
+        $this->assertTrue(false);
     }
 }
