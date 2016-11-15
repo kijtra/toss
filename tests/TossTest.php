@@ -31,6 +31,55 @@ class TossTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(false);
     }
 
+    public function testHasError()
+    {
+        $instance = new Toss;
+        $instance->error('Message');
+        $this->assertTrue($instance->hasError());
+    }
+
+    public function testHasInfo()
+    {
+        $instance = new Toss;
+        $instance->info('Message');
+        $this->assertTrue($instance->hasInfo());
+    }
+
+    public function testHasInvalid()
+    {
+        $instance = new Toss;
+        $instance->invalid('Message');
+        $this->assertTrue($instance->hasInvalid());
+    }
+
+    public function testHasNotice()
+    {
+        $instance = new Toss;
+        $instance->notice('Message');
+        $this->assertTrue($instance->hasNotice());
+    }
+
+    public function testHasSuccess()
+    {
+        $instance = new Toss;
+        $instance->success('Message');
+        $this->assertTrue($instance->hasSuccess());
+    }
+
+    public function testHasValid()
+    {
+        $instance = new Toss;
+        $instance->valid('Message');
+        $this->assertTrue($instance->hasValid());
+    }
+
+    public function testHasWarning()
+    {
+        $instance = new Toss;
+        $instance->warning('Message');
+        $this->assertTrue($instance->hasWarning());
+    }
+
     public function testGetMessage()
     {
         $text = 'Message';

@@ -1,6 +1,6 @@
 <?php
 namespace Kijtra\Toss\Type;
 
-class Inalid extends \Kijtra\Toss\Type
+class Invalid extends \Kijtra\Toss\Type
 {
 }
