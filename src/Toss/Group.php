@@ -23,20 +23,14 @@ class Group implements \ArrayAccess, \Countable, \IteratorAggregate
      * Add data(s)
      *
      * @param string $type  Message type name
-     * @param mixed $item  Toss\Type or Array
+     * @param mixed $message  Toss\Type
      */
-    public function __construct($type = 'info', $item = null)
+    public function __construct($type = 'info', $message = null)
     {
         $this->type = $type;
 
-        if (!empty($item)) {
-            if (is_array($item)) {
-                foreach ($item as $val) {
-                    $this->add($val);
-                }
-            } else {
-                $this->add($item);
-            }
+        if (!empty($message)) {
+            $this->add($message);
         }
     }
 
@@ -46,9 +40,9 @@ class Group implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param mixed $item  Toss\Type
      * @return object  Current object
      */
-    public function add(Type $item)
+    public function add(Type $message)
     {
-        $this->container[] = $item;
+        $this->container[] = $message;
         return $this;
     }
 

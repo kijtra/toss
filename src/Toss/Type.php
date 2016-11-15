@@ -15,7 +15,7 @@ use \Kijtra\Toss;
  * Licensed under The MIT License
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
-class Type implements \Serializable, \JsonSerializable
+class Type
 {
     /**
      * Current type name
@@ -345,45 +345,5 @@ class Type implements \Serializable, \JsonSerializable
     final public function __set($key, $value)
     {
         return false;
-    }
-
-
-    /**
-     * Serialize
-     *
-     * @return string  Serialized string
-     */
-    public function serialize()
-    {
-        return serialize($this);
-    }
-
-    /**
-     * Unserialize
-     *
-     * @param string $serialized  Serialized string
-     * @return object  Current object
-     */
-    public function unserialize($serialized)
-    {
-        $data = unserialize($serialized);
-        if (is_string($data)) {
-            $this->__construct($data);
-        } elseif(!empty($data['message'])) {
-            $this->__construct($data['message']);
-        } else {
-            throw new \InvalidArgumentException('Invalid serialized data.');
-        }
-        return $this;
-    }
-
-    /**
-     * Serialize to JSON
-     *
-     * @return array  Array for JSON
-     */
-    public function jsonSerialize()
-    {
-        return $this->toArray();
     }
 }

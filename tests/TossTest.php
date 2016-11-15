@@ -192,4 +192,32 @@ class TossTest extends \PHPUnit_Framework_TestCase
         $message = $instance->add('Message', 'info')->data('test');
         $this->assertEquals($message->data, 'test');
     }
+
+    public function testCountable()
+    {
+        $instance = new Toss;
+        $instance->add('Message', 'success');
+        $instance->add('Message', 'info');
+        $this->assertEquals(count($instance), $instance->count());
+    }
+
+    public function testIterator()
+    {
+        $text = array(
+            'First',
+            'Second',
+        );
+        $instance = new Toss;
+        $instance->add($text[0], 'warning');
+        $instance->add($text[1], 'error');
+        foreach ($instance as $type => $group) {
+            if ('warning' === $type) {
+                $this->assertEquals($text[0], $group->first()->message());
+            } elseif ('error' === $type) {
+                $this->assertEquals($text[1], $group->first()->message());
+            } else {
+                $this->assertTrue(false);
+            }
+        }
+    }
 }

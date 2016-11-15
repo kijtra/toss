@@ -10,7 +10,7 @@ namespace Kijtra;
 use \Kijtra\Toss\Group;
 use \Kijtra\Toss\Type;
 
-class Toss implements \ArrayAccess
+class Toss implements \ArrayAccess, \Countable, \IteratorAggregate
 {
     /**
      * Default message type
@@ -420,5 +420,20 @@ class Toss implements \ArrayAccess
     public function offsetUnset($type)
     {
         $this->clear($type);
+    }
+
+    /**
+     * Countable
+     */
+    public function count() 
+    { 
+        return count($this->messages); 
+    }
+
+    /**
+     * IteratorAggregate
+     */
+    public function getIterator() {
+        return new \ArrayIterator($this->messages);
     }
 }
